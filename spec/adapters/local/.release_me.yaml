@@ -1,0 +1,5 @@
+adapter:
+  version_file_relative_path: 'version.rb'
+  version_field: 'VERSION'
+  version_type: 'semver'
+  adapter_name: 'custom'

@@ -1,0 +1,10 @@
+# the relative path to the file to update
+version_file_relative_path: 'metadata.json'
+# the field in the file above to update
+version_field: 'version'
+# type of versioning scheme
+version_type: 'semver'
+# adapter name
+adapter_name: 'puppet'
+# used to detect that this is a puppet module type, this should be a glob
+detection_pattern: 'manifests/*.pp'

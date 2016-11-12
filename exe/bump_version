@@ -1,0 +1,46 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+require 'optparse'
+require_relative '../lib/release_me/bump_version'
+
+options = {}
+OptionParser.new do |opts|
+  opts.banner = "Usage: #{__FILE__} [options]"
+
+  opts.on('-j', '--json', 'Output as JSON') do
+    options[:json] = true
+  end
+
+  opts.on('-n', '--noop', 'Perform a Dry Run') do
+    options[:dry_run] = true
+  end
+
+  opts.on('-t', '--use-time', 'Use the time as the version') do
+    options[:version] ||= :time
+  end
+
+  opts.on('-c', '--use-commit', 'Use the commit checksum as the version') do
+    options[:version] ||= :commit
+  end
+
+  opts.on('-v', '--version-string VER', 'The version string to use') do |arg|
+    options[:version] = arg
+  end
+
+  opts.on('-p', '--path_of_project PATH', "Project path, defaults to: #{Dir.pwd}") do |arg|
+    options[:project_path] = arg || Dir.pwd
+  end
+
+  # opts.on('-a', '--adapter-type ADAPTER', 'The adapter type in order to bump the correct file') do |arg|
+  #   options[:adapter] = arg
+  # end
+
+  opts.on('-h', '--help', 'Prints this help') do
+    puts opts
+    exit 1
+  end
+
+end.parse!
+
+instance = ReleaseMe::BumpVersion.new(options)
+puts instance.run

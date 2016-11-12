@@ -1,0 +1,11 @@
+adapter:
+  version_file_relative_path: 'lib/release_me/version.rb'
+  version_field: 'VERSION'
+  version_type: 'semver'
+  adapter_name: 'custom'
+
+vcs:
+  provider: gitlab
+  branch_name: master
+  author_email: autobot@nwops.io
+  author_name: Autobot

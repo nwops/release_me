@@ -1,0 +1,46 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+require 'json'
+require 'uri'
+require 'net/http'
+require 'optparse'
+
+# Author: Corey Osman
+# Purpose: auto bump and tag, should only be run by a gitlab ci runner
+#          make API calls to gitlab in order to update the file and tag a version
+
+# this script is not smart. if it fails you may need to perform some manual steps
+# the next version should detect the failed state and perform the neccessary steps
+options = {}
+OptionParser.new do |opts|
+  opts.banner = "Usage: #{__FILE__} [options]"
+
+  opts.on('-j', '--json', 'Output as JSON') do
+    options[:json] = true
+  end
+
+  opts.on('--version-type TYPE', 'Version string to use: commit|time|semver') do |arg|
+    options[:version_type] = arg.to_sym
+  end
+
+  opts.on('-p', '--path_of_project PATH', "Project path, defaults to: #{Dir.pwd}") do |arg|
+    options[:project_path] = arg || Dir.pwd
+  end
+
+  opts.on('--no-tag', 'Do not tag a version') do
+    options[:no_tagging] = true
+  end
+
+  opts.on('-n', '--noop', 'Perform a Dry Run') do
+    options[:dry_run] = true
+  end
+
+  opts.on('-h', '--help', 'Prints this help') do
+    puts opts
+    exit 1
+  end
+end.parse!
+
+
+instance = ReleaseMe::BumpTag.new(options)
+instance.run
