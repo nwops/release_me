@@ -4,6 +4,7 @@ require 'json'
 require 'uri'
 require 'net/http'
 require 'optparse'
+require_relative '../lib/release_me/bump_tag'
 
 # Author: Corey Osman
 # Purpose: auto bump and tag, should only be run by a gitlab ci runner
@@ -43,4 +44,4 @@ end.parse!
 
 
 instance = ReleaseMe::BumpTag.new(options)
-instance.run
+puts instance.run

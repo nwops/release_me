@@ -1,7 +1,13 @@
-base_url: 'https://gitlab.com/api/v3/projects'
+# base url to gitlab instance, defaults to url provided by CI runner
+# or can override in the local config
+base_url: <%= require 'uri'; "https://#{URI(ENV['CI_PROJECT_URL']).host.to_s}/api/v3/projects" %>
 project_id: <%= ENV['CI_PROJECT_ID'] %>
+# private token is specific to gitlab and must be set in the variables settings
 private_token: <%= ENV['PRIVATE_TOKEN'] %>
 provider_name: 'gitlab'
 version_requirement: '8.13'
 # if the variable is present then this provider should be used
-detected: <%= ENV['GITLAB_CI'] %>
+detected: <%= !! ENV['GITLAB_CI'] %>
+tags_path: 'repository/tags'
+commits_path: 'repository/commits'
+no_verify: true

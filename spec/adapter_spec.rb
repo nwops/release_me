@@ -2,7 +2,7 @@ require "spec_helper"
 require 'release_me/adapter'
 
 describe ReleaseMe::Adapter do
-  include ReleaseMe::Adapter
+  include described_class
   let(:file_path) do
     File.expand_path(File.join('spec','adapters', 'puppet'))
   end

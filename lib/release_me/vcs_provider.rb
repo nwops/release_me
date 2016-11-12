@@ -1,5 +1,6 @@
 require 'yaml'
 require 'erb'
+require 'ostruct'
 
 module ReleaseMe
   module VcsProvider
@@ -12,7 +13,7 @@ module ReleaseMe
       raise "Cannot find config" if config.nil?
       if vcs = config.fetch('vcs', nil)
         pdata = provider_data(vcs['provider'])
-        config.merge(pdata) # merge and override the local vcs data
+        config = pdata.merge(vcs) # merge and override the default provider data
       end
       OpenStruct.new(config)
     end
@@ -63,6 +64,5 @@ module ReleaseMe
       end
       @providers
     end
-
   end
 end

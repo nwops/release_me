@@ -3,3 +3,7 @@ adapter:
   version_field: 'VERSION'
   version_type: 'semver'
   adapter_name: 'custom'
+
+vcs:
+  provider: gitlab
+  base_url: 'https://mygitlab.com/api/v3/projects'
