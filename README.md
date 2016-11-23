@@ -18,6 +18,34 @@ Or install it yourself as:
 
 ## Usage
 
+### Gitlab and Gitlab CI
+In gitlab you can create a task similar to the following.
+
+```
+bump_and_tag:
+  type: release
+  when: manual
+  tags:
+    - ruby2.2
+  only:
+    - master@above_on/above
+  script:
+    - bundle install
+    - bundle exec bump_and_tag
+
+write_checksum:
+  type: release
+  when: manual
+  tags:
+    - ruby2.2
+  only:
+    - master@nwops/release_me
+  script:
+    - bundle install
+    - bundle exec bump_and_tag
+
+```
+
 ### Local Release_me config
 
 ```

@@ -1,0 +1,47 @@
+image: ruby:2.2
+
+stages:
+  - validate
+  - test
+  - release
+  - deploy
+
+run_test_suite:
+  stage: test
+  only:
+    - branches
+  tags:
+    - ruby2.2
+  script:
+    - bundle install --without development
+    - bundle exec rake spec
+
+rubocop_ruby:
+  stage: validate
+  allow_failure: true
+  tags:
+    - ruby2.2
+  script:
+    - bundle install
+    - bundle exec rubocop
+
+bump_and_tag:
+  type: release
+  when: manual
+  tags:
+    - ruby2.2
+  only:
+    - master@above_on/above
+  script:
+    - bundle install
+    - bundle exec bump_and_tag
+
+gem_production:
+  image: ruby:2.2
+  before_script:
+    - gem install dpl
+  stage: deploy
+  script:
+    - dpl --provider=rubygems --api-key=$RUBYGEMS_API_KEY
+  only:
+    - tags
