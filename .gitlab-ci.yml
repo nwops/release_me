@@ -19,6 +19,8 @@ run_test_suite:
 rubocop_ruby:
   stage: validate
   allow_failure: true
+  only:
+    - branches
   tags:
     - ruby2.2
   script:
