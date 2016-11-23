@@ -9,8 +9,8 @@ module ReleaseMe
     def initialize(options)
       @options = options
       opts = {
-          :json => true,
-          :version => options[:version_type]
+        json: true,
+        version: options[:version_type]
       }
       @version_instance = ReleaseMe::BumpVersion.new(opts)
     end
@@ -42,28 +42,28 @@ module ReleaseMe
 
     def file_update_body_request(file_contents, message)
       {
-          id: vcs_config.project_id,
-          branch_name: vcs_config.branch_name,
-          author_email: vcs_config.author_email,
-          author_name: vcs_config.author_name,
-          commit_message: message,
-          actions: [
-              {
-                  action: :update,
-                  file_path: version_instance.app_version_file,
-                  content: file_contents
-              }
-          ]
+        id: vcs_config.project_id,
+        branch_name: vcs_config.branch_name,
+        author_email: vcs_config.author_email,
+        author_name: vcs_config.author_name,
+        commit_message: message,
+        actions: [
+          {
+            action: :update,
+            file_path: version_instance.app_version_file.gsub(Dir.pwd + '/', ''),
+            content: file_contents
+          }
+        ]
       }.to_json
     end
 
     def tag_body_request(tag_name, commit_id)
       {
-          id: vcs_config.project_id,
-          tag_name: tag_name,
-          ref: commit_id, # or git rev-parse HEAD
-          # messasge:
-          # release_description:
+        id: vcs_config.project_id,
+        tag_name: tag_name,
+        ref: commit_id, # or git rev-parse HEAD
+        # messasge:
+        # release_description:
       }.to_json
     end
 
@@ -98,10 +98,10 @@ module ReleaseMe
       # Don't verify
       conn.verify_mode = OpenSSL::SSL::VERIFY_NONE if vcs_config.no_verify
       request = case method
-                  when :put
-                    Net::HTTP::Put.new(uri.path)
-                  else
-                    Net::HTTP::Post.new(uri.path)
+                when :put
+                  Net::HTTP::Put.new(uri.path)
+                else
+                  Net::HTTP::Post.new(uri.path)
                 end
       request.body = body
       # private token is specific to gitlab and must be set
@@ -129,6 +129,5 @@ module ReleaseMe
       end
       "Tagged: #{version_output['new_version']}"
     end
-
   end
 end

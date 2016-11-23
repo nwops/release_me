@@ -42,6 +42,5 @@ OptionParser.new do |opts|
   end
 end.parse!
 
-
 instance = ReleaseMe::BumpTag.new(options)
 puts instance.run

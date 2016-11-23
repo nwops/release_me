@@ -13,7 +13,7 @@ run_test_suite:
   tags:
     - ruby2.2
   script:
-    - bundle install --without development
+    - bundle install
     - bundle exec rake spec
 
 rubocop_ruby:
@@ -23,7 +23,7 @@ rubocop_ruby:
     - ruby2.2
   script:
     - bundle install
-    - bundle exec rubocop
+    - bundle exec rubocop -D
 
 bump_and_tag:
   type: release
@@ -31,7 +31,7 @@ bump_and_tag:
   tags:
     - ruby2.2
   only:
-    - master@above_on/above
+    - master@nwops/release_me
   script:
     - bundle install
     - bundle exec bump_and_tag

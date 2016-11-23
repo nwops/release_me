@@ -27,16 +27,16 @@ module ReleaseMe
 
     def new_version
       unless @new_version
-        case version_type
-          when :commit
-            @new_version = `git rev-parse HEAD`.chomp[0..8]
-          when :time
-            @new_version = Time.now.strftime('%Y.%m.%d.%H%M')
-          when :semver
-            @new_version = app_config.current_version.next
-          else
-            @new_version = options[:version] || app_config.current_version.next
-        end
+        @new_version = case version_type
+                       when :commit
+                         `git rev-parse HEAD`.chomp[0..8]
+                       when :time
+                         Time.now.strftime('%Y.%m.%d.%H%M')
+                       when :semver
+                         app_config.current_version.next
+                       else
+                         options[:version] || app_config.current_version.next
+                       end
       end
       @new_version
     end
@@ -47,9 +47,9 @@ module ReleaseMe
       debug_message = "updated version string from #{app_config.current_version} to #{new_version}"
       if options[:json]
         output = JSON.pretty_generate(message: debug_message,
-                                  file_content: app_config_lines,
-                                  new_version: new_version,
-                                  old_version: app_config.current_version)
+                                      file_content: app_config_lines,
+                                      new_version: new_version,
+                                      old_version: app_config.current_version)
       else
         STDERR.puts debug_message
         File.write(app_config.version_file, app_config_lines) unless options[:dry_run]
@@ -59,5 +59,3 @@ module ReleaseMe
     end
   end
 end
-
-

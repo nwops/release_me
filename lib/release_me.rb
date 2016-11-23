@@ -1,3 +1,1 @@
-require "release_me/version"
-
-
+require 'release_me/version'

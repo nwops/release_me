@@ -4,13 +4,12 @@ require 'ostruct'
 
 module ReleaseMe
   module VcsProvider
-
     # @return [Hash] - adapter config
     # @param [String] - path to the directory in which you want to check
     def provider_config(project_path = Dir.pwd)
       path = project_path || Dir.pwd
       config = local_config(path) || detect_provider_config
-      raise "Cannot find config" if config.nil?
+      raise 'Cannot find config' if config.nil?
       if vcs = config.fetch('vcs', nil)
         pdata = provider_data(vcs['provider'])
         config = pdata.merge(vcs) # merge and override the default provider data
@@ -28,7 +27,7 @@ module ReleaseMe
     # @param [String] - path to the directory in which you want to check
     def local_config(path = Dir.pwd)
       file = File.join(path, '.release_me.yaml')
-      load_provider(file) if File.exists?(file)
+      load_provider(file) if File.exist?(file)
     end
 
     # @param [String] path to adapter file
@@ -42,8 +41,8 @@ module ReleaseMe
     # @return [Hash] - adapter config type
     # @param [String] - path to the directory in which you want to check
     def detect_provider_config
-      type, config = providers.find do | _, c|
-        c['detected']  # return first provider that could be used
+      type, config = providers.find do |_, c|
+        c['detected'] # return first provider that could be used
       end
       config
     end
@@ -56,7 +55,7 @@ module ReleaseMe
     def providers
       unless @providers
         @providers = {}
-        files =  Dir.glob(File.join(provider_dir, '*.yaml'))
+        files = Dir.glob(File.join(provider_dir, '*.yaml'))
         files.each do |file_name|
           data = load_provider(file_name)
           @providers[data['provider_name']] = data

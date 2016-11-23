@@ -39,7 +39,6 @@ OptionParser.new do |opts|
     puts opts
     exit 1
   end
-
 end.parse!
 
 instance = ReleaseMe::BumpVersion.new(options)

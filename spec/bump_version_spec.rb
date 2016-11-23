@@ -1,16 +1,16 @@
-require "spec_helper"
+require 'spec_helper'
 require 'release_me/bump_version'
 
 describe ReleaseMe::BumpVersion do
   let(:options) do
     {
-        :json => true,
-        :project_path => project_path
+      json: true,
+      project_path: project_path
     }
   end
 
   let(:project_path) do
-    File.expand_path(File.join('spec','adapters', 'puppet'))
+    File.expand_path(File.join('spec', 'adapters', 'puppet'))
   end
 
   let(:instance) do
