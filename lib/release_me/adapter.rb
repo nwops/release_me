@@ -50,7 +50,9 @@ module ReleaseMe
         # reads in the ruby version file and should return the version if
         # that is the last thing executed
         eval(File.read(file))
-        end
+      else
+        File.read(file)  
+      end
     end
 
     # @return [Hash] - adapter config type
