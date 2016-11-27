@@ -51,7 +51,7 @@ module ReleaseMe
         # that is the last thing executed
         eval(File.read(file))
       else
-        File.read(file)  
+        File.read(file)
       end
     end
 
