@@ -1,5 +1,7 @@
 require_relative 'bump_version'
 require_relative 'vcs_provider'
+require 'openssl'
+require 'net/http'
 
 module ReleaseMe
   class BumpTag
@@ -96,7 +98,7 @@ module ReleaseMe
       # conn.set_debug_output
       conn.use_ssl = use_ssl
       # Don't verify
-      conn.verify_mode = OpenSSL::SSL::VERIFY_NONE if vcs_config.no_verify
+      conn.verify_mode = ::OpenSSL::SSL::VERIFY_NONE if vcs_config.no_verify
       request = case method
                 when :put
                   Net::HTTP::Put.new(uri.path)
