@@ -12,7 +12,7 @@ module ReleaseMe
       config = local_config(path) || detect_adapter_config(path)
       raise 'Cannot find config' if config.nil?
       adapter = OpenStruct.new(config)
-      adapter[:version_file] = version_file(adapter, path)
+      adapter[:version_file] = version_file(path, adapter.version_file_relative_path)
       adapter[:current_version] = current_version(adapter, adapter[:version_file])
       adapter
     end
@@ -31,8 +31,11 @@ module ReleaseMe
       end
     end
 
-    def version_file(adapter, path)
-      Dir.glob(File.join(path, adapter.version_file_relative_path)).first
+    # @param project_path [String] - path to the directory in which you want to check
+    # @param version_path [String] - path to the version file or glob of version file
+    # @return [String] path to version file
+    def version_file(project_path, version_path)
+      Dir.glob(File.join(project_path, version_path)).first
     end
 
     private
@@ -62,6 +65,7 @@ module ReleaseMe
         pattern = File.join(path, adapter_config['detection_pattern']) || ''
         Dir.glob(pattern).count > 0
       end
+      puts "Adapter type: #{type} detected"
       config
     end
 

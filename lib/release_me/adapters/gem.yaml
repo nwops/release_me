@@ -1,5 +1,5 @@
 # the relative path to the file to update
-version_file_relative_path: 'lib/*/version.rb'
+version_file_relative_path: 'lib/**/version.rb'
 # the field in the file above to update
 version_field: 'VERSION'
 # type of versioning scheme, currently not used
