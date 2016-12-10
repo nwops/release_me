@@ -7,3 +7,5 @@ adapter:
 vcs:
   provider: gitlab
   base_url: 'https://mygitlab.com/api/v3/projects'
+  author_email: autobot@nwops.io
+  author_name: Autobot
