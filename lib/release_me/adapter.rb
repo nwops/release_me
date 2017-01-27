@@ -12,8 +12,8 @@ module ReleaseMe
       config = local_config(path) || detect_adapter_config(path)
       raise 'Cannot find config' if config.nil?
       adapter = OpenStruct.new(config)
-      adapter[:version_file] = version_file(path, adapter.version_file_relative_path)
-      adapter[:current_version] = current_version(adapter, adapter[:version_file])
+      adapter.version_file = version_file(path, adapter.version_file_relative_path)
+      adapter.current_version = current_version(adapter, adapter.version_file)
       adapter
     end
 
